@@ -1,14 +1,14 @@
 package pl.mskreczko.api.domain.ticket;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import pl.mskreczko.api.domain.flight.Flight;
 import pl.mskreczko.api.domain.user.User;
 
 import java.util.UUID;
 
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
