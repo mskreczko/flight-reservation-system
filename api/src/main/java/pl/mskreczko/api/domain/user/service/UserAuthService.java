@@ -17,6 +17,7 @@ import pl.mskreczko.api.domain.user.dto.UserRegistrationDto;
 import pl.mskreczko.api.domain.user.role.Role;
 import pl.mskreczko.api.domain.user.role.RoleRepository;
 
+import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -60,5 +61,9 @@ public class UserAuthService implements UserDetailsService  {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(NoSuchEntityException::new);
+    }
+
+    public UserDetails loadUserById(UUID userId) throws NoSuchElementException {
+        return userRepository.findById(userId).orElseThrow(NoSuchEntityException::new);
     }
 }
