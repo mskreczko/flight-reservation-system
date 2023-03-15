@@ -30,4 +30,15 @@ public class Ticket {
     private Double price;
 
     private TravelClass travelClass;
+
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "id=" + id +
+                ", flight=" + flight +
+                ", user=" + user +
+                ", price=" + price +
+                ", travelClass=" + travelClass +
+                '}';
+    }
 }
