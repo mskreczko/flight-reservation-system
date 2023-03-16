@@ -34,6 +34,7 @@ public class WebSecurityConfig {
                 .addFilterBefore(new AccessTokenPreAuthorizationFilter(accessTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((request) -> request
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/unauthenticated/**").permitAll()
                         .requestMatchers("/api/v1/user/**").hasAuthority("ROLE_USER")
                         .anyRequest().denyAll())
                 .exceptionHandling()
