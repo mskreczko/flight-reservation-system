@@ -1,9 +1,12 @@
 import { React, useState } from "react";
+import { useRecoilState } from "recoil";
+import { authenticationState } from "./atoms/AuthenticationAtom";
 
 export default function Signin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [invalidCredentials, setInvalidCredentials] = useState(false);
+    const setAuthenticated = useRecoilState(authenticationState)[1];
 
     const signInUser = async(email, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/login", {
@@ -40,7 +43,8 @@ export default function Signin() {
             return response.text();
         }).then((data) => {
             localStorage.setItem("token", data);
-            window.location.href = "/";
+            setAuthenticated(true);
+            window.location.href = "/user";
         }).catch(() => {});
     }
 

@@ -1,4 +1,6 @@
 import { React, useState } from "react";
+import { useRecoilState } from "recoil";
+import { authenticationState } from "../auth/atoms/AuthenticationAtom";
 import "../css/main.css";
 
 export default function FlightSearch() {
@@ -7,6 +9,7 @@ export default function FlightSearch() {
     const [toIcao, setToIcao] = useState("");
     const [departDate, setDepartDate] = useState("");
     const [returnDate, setReturnDate] = useState("");
+    const authenticated = useRecoilState(authenticationState)[0];
 
     const fetchFlights = async (departure, destination, departDate, returnDate) => {
         return await fetch(
@@ -57,7 +60,7 @@ export default function FlightSearch() {
                         <p>Airline: { f.airline }</p>
                         <p>Departure date: { f.departureDate }</p>
                         <div className="book-flight-container">
-                            <a className="book-flight-btn" href="book_flight">BUY</a>
+                            <a className="book-flight-btn" href="/user/book-flight">BUY</a>
                         </div>
                     </section>
                 )) : null }
