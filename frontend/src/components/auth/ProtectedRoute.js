@@ -1,7 +1,7 @@
 import { React } from "react";
 import { useRecoilState } from "recoil";
 import { authenticationState } from "./atoms/AuthenticationAtom";
-import { Outlet } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 import "../css/main.css";
 
 export default function ProtectedRoute() {
@@ -14,14 +14,17 @@ export default function ProtectedRoute() {
     return (
         <div className="wrapper">
             <header>
-                <a href="/user"><h1>Flight Booking</h1></a>
+                <a className="header-text" href="/user"><h1>Flight Booking</h1></a>
                 <nav>
                     <menu>
-                        <li><a href="/user/about">ABOUT</a></li>
-                        <li><a href="/user/contact">CONTACT</a></li>
-                        <li><a href="/user/logout">LOGOUT</a></li>
+                        <li><Link className="nav-link" to="/user/about">ABOUT</Link></li>
+                        <li><Link className="nav-link" to="/user/contact">CONTACT</Link></li>
                     </menu>
                 </nav>
+                <div>
+                    <Link className="nav-link" to="/user/account">ACCOUNT</Link>
+                    <Link className="nav-link" to="/user/logout">LOGOUT</Link>
+                </div>
             </header>
             <main>
                 <Outlet/>

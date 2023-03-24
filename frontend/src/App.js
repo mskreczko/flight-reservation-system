@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import './App.css';
 import Logout from "./components/auth/Logout";
 import { RecoilRoot } from "recoil";
+import AccountDetails from "./components/user/AccountDetails";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/user" element={<ProtectedRoute/>}>
             <Route index element={<FlightSearch/>}/>
             <Route path="book-flight" element={<BookFlight/>}/>
+            <Route path="account" element={<AccountDetails/>}/>
             <Route path="logout" element={<Logout/>}/>
             <Route path="contact" element={<Contact/>}/>
             <Route path="about" element={<About/>}/>
