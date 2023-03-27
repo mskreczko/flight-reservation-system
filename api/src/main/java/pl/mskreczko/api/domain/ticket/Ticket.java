@@ -1,10 +1,12 @@
 package pl.mskreczko.api.domain.ticket;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import pl.mskreczko.api.domain.flight.Flight;
 import pl.mskreczko.api.domain.user.User;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Getter
@@ -25,10 +27,12 @@ public class Ticket {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
-    private Double price;
+    private BigDecimal price;
 
+    @Enumerated(EnumType.STRING)
     private TravelClass travelClass;
 
     @Override

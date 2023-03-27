@@ -16,7 +16,7 @@ public class UserFlightController {
     private final UserFlightService userFlightService;
 
     @GetMapping
-    public ResponseEntity<?> getAllFlights(@RequestParam("pageNumber") Optional<Integer> pageNumber) {
+    public ResponseEntity<?> getAllFlights(@RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber) {
         return ResponseEntity.ok(userFlightService.getAllFlights(pageNumber));
     }
 
@@ -25,7 +25,7 @@ public class UserFlightController {
                                          @RequestParam("destination_icao") String destinationIcao,
                                          @RequestParam("departure_date") String departureDate,
                                          @RequestParam("return_date") Optional<String> returnDate,
-                                         @RequestParam("pageNumber") Optional<Integer> pageNumber) {
+                                         @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber) {
         return ResponseEntity.ok(userFlightService.getFlightsByCriteria(departureIcao, destinationIcao, returnDate,
                 pageNumber));
     }

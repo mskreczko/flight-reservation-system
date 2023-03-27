@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Pagination } from "react-bootstrap";
+import Pagination from "react-bootstrap/Pagination";
 import { Link } from "react-router-dom";
 import "../css/main.css";
 
@@ -56,7 +56,9 @@ export default function FlightSearch() {
     let items = [];
     for (let n = 1; n <= pageInfo.totalPages; n++) {
         items.push(
-            <Pagination.Item key={n} active={n === pageInfo.currentPage} onClick={() => setPageNumber(n-1)}>{n}</Pagination.Item>
+            <Pagination.Item key={n} active={n === pageInfo.currentPage} onClick={() => setPageNumber(n-1)}>
+                {n}
+            </Pagination.Item>
         );
     }
 
@@ -76,14 +78,13 @@ export default function FlightSearch() {
                         <span>{ f.departureAirport.icao }<span className="arrow-icon">&#8594;</span>{ f.destinationAirport.icao }</span>
                         <p>Airline: { f.airline }</p>
                         <p>Departure date: { f.departureDate }</p>
-                        <p>Price: { f.price }</p>
                         <div className="book-flight-container">
                             <Link className="book-flight-btn" to="/user/book-flight" state={{ f }}>BUY</Link>
                         </div>
                     </section>
                 )) : null }
             </article>
-            <Pagination style={{ listStyle: "none" }}>{ items }</Pagination>
+            <Pagination>{ items }</Pagination>
         </section>
     )
 }
