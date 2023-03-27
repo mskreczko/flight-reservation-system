@@ -78,7 +78,6 @@ export default function FlightSearch() {
                         <span>{ f.departureAirport.icao }<span className="arrow-icon">&#8594;</span>{ f.destinationAirport.icao }</span>
                         <p>Airline: { f.airline }</p>
                         <p>Departure date: { f.departureDate }</p>
-                        <p>Price: { f.price }</p>
                         <div className="book-flight-container">
                             <Link className="book-flight-btn" to="/user/book-flight" state={{ f }}>BUY</Link>
                         </div>

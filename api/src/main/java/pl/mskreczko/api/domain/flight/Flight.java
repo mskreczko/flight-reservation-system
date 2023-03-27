@@ -31,8 +31,6 @@ public class Flight implements Serializable {
 
     private LocalDateTime departureDate;
 
-    private BigDecimal price;
-
     @Override
     public String toString() {
         return "Flight{" +

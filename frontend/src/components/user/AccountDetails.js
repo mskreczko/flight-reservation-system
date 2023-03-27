@@ -35,14 +35,16 @@ export default function AccountDetails() {
             </article>
             <article className="user-edit-buttons">
                 <menu>
-                    <li><Link to="changePassword">Change password</Link></li>
-                    <li><Link to="deletePassword">Delete account</Link></li>
+                    <li><Link className="edit-account-btn" to="changePassword">Change password</Link></li>
+                    <li><Link className="edit-account-btn" to="deletePassword">Delete account</Link></li>
                 </menu>
             </article>
             <article className="user-tickets">
                 <h3>Your tickets</h3>
                 { tickets ? tickets.map((t, idx) => (
                     <section key={idx}>
+                        <span>{ t.flight.departureAirport.icao }<span className="arrow-icon">&#8594;</span>{ t.flight.destinationAirport.icao }</span>
+                        <span>{ t.flight.departureDate }</span>
                         <span>{ t.price }</span>
                     </section>
                 )) : null }
