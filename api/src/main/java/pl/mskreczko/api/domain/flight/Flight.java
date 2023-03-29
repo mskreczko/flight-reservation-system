@@ -5,7 +5,6 @@ import lombok.*;
 import pl.mskreczko.api.domain.airport.Airport;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -30,6 +29,8 @@ public class Flight implements Serializable {
     private Airport destinationAirport;
 
     private LocalDateTime departureDate;
+
+    private String airline;
 
     @Override
     public String toString() {

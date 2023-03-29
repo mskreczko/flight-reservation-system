@@ -44,9 +44,10 @@ export default function AccountDetails() {
                 <h3>Your tickets</h3>
                 { tickets ? tickets.map((t, idx) => (
                     <section key={idx}>
-                        <span>{ t.flight.departureAirport.icao }<span className="arrow-icon">&#8594;</span>{ t.flight.destinationAirport.icao }</span>
-                        <span>{ t.flight.departureDate }</span>
-                        <span>{ t.price }</span>
+                        <p>{ t.flight.departureAirport.icao }<span className="arrow-icon">&#8594;</span>{ t.flight.destinationAirport.icao }</p>
+                        <p>{ t.flight.departureDate }</p>
+                        <p>{ t.price } $</p>
+                        <p>{ t.flight.airline }</p>
                     </section>
                 )) : <Spinner /> }
             </article>
