@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import Pagination from "react-bootstrap/Pagination";
 import { Link } from "react-router-dom";
+import Spinner from "../spinners/Spinner";
 import "../css/main.css";
 
 export default function FlightSearch() {
@@ -82,7 +83,7 @@ export default function FlightSearch() {
                             <Link className="book-flight-btn" to="/user/book-flight" state={{ f }}>BUY</Link>
                         </div>
                     </section>
-                )) : null }
+                )) : <Spinner /> }
             </article>
             <Pagination>{ items }</Pagination>
         </section>
