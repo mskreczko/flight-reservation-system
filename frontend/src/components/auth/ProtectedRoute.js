@@ -13,7 +13,7 @@ export default function ProtectedRoute() {
 
     return (
         <div className="wrapper">
-            <header>
+            <header className="desktop-header">
                 <a className="header-text" href="/user"><h1>Flight Booking</h1></a>
                 <nav>
                     <menu>
@@ -22,8 +22,8 @@ export default function ProtectedRoute() {
                     </menu>
                 </nav>
                 <div>
-                    <Link className="nav-link" to="/user/account">ACCOUNT</Link>
-                    <Link className="nav-link" to="/user/logout">LOGOUT</Link>
+                    <Link className="nav-link-auth" to="/user/account">ACCOUNT</Link>
+                    <Link className="nav-link-auth" to="/user/logout">LOGOUT</Link>
                 </div>
             </header>
             <main>

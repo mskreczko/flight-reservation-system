@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Spinner from "../spinners/Spinner";
 
 const fetchUserDetails = async () => {
     return await fetch("http://localhost:8080/api/v1/user/details", {
@@ -47,7 +48,7 @@ export default function AccountDetails() {
                         <span>{ t.flight.departureDate }</span>
                         <span>{ t.price }</span>
                     </section>
-                )) : null }
+                )) : <Spinner /> }
             </article>
         </section>
     )

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Select from "react-select";
+import Spinner from "../spinners/Spinner";
 import "../css/main.css";
 
 export default function BookFlight() {
@@ -34,7 +35,11 @@ export default function BookFlight() {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({"ticketId": choosenTicket}),
-        });
+        }).then((resp) => {
+            if (resp.ok) {
+                window.location.href = "/user/success";
+            }
+        })
     }
 
     const onChange = (e) => {
@@ -63,7 +68,7 @@ export default function BookFlight() {
                                 <p>{ t.price } $ | { t.travelClass }</p>
                             </label>
                         </div>
-                    )) : null }
+                    )) : <Spinner /> }
                 </article>
                 <Select placeholder="Select payment method" name="payment-method" className="payment-method-select" options={options}/>
                 <button type="submit">BOOK FLIGHT</button>
