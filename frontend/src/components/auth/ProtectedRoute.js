@@ -17,20 +17,18 @@ export default function ProtectedRoute() {
                 <a className="header-text" href="/user"><h1>Flight Booking</h1></a>
                 <nav>
                     <menu>
-                        <li><Link className="nav-link" to="/user/about">ABOUT</Link></li>
-                        <li><Link className="nav-link" to="/user/contact">CONTACT</Link></li>
+                        <li><Link className="nav-link" to="/user/account">ACCOUNT</Link></li>
+                        <li><Link className="nav-link" to="/user/logout">LOGOUT</Link></li>
                     </menu>
                 </nav>
-                <div>
-                    <Link className="nav-link-auth" to="/user/account">ACCOUNT</Link>
-                    <Link className="nav-link-auth" to="/user/logout">LOGOUT</Link>
-                </div>
             </header>
             <main>
                 <Outlet/>
             </main>
             <footer>
                 <p>Michał Skreczko &copy; 2023</p>
+                <Link className="footer-link" to="/user/about">ABOUT</Link>
+                <Link className="footer-link" to="/user/contact">CONTACT</Link>
             </footer>
         </div>
     )

@@ -29,6 +29,7 @@ export default function FlightSearch() {
         fetchFlights(fromIcao, toIcao, departDate, returnDate, pageNumber).then((data) => data.json())
         .then((body) => { 
             setFlights(body.content);
+            setPageInfo({totalItems: body.totalElements, itemsPerPage: body.pageSize, totalPages: body.totalPages, currentPage: body.pageNumber+1});
         })
     }
 
@@ -49,6 +50,14 @@ export default function FlightSearch() {
         }
     }
 
+    const nextPage = (n) => {
+        setPageNumber(n + 1);
+    }
+
+    const previousPage = (n) => {
+        setPageNumber(n - 1);
+    }
+
     useEffect(() => {
         fetchFlightsOnLoad(pageNumber).then((resp) => resp.json())
         .then((body) => { setFlights(body.content); setPageInfo({totalItems: body.totalElements, itemsPerPage: body.pageSize, totalPages: body.totalPages, currentPage: body.pageNumber+1})});
@@ -66,8 +75,8 @@ export default function FlightSearch() {
     return (
         <section className="search-container">
             <form className="search-form" onSubmit={onSubmit}>
-                <input name="from_icao" value={fromIcao} onChange={onChange} type="text" placeholder="From"/>
-                <input name="to_icao" value={toIcao} onChange={onChange} type="text" placeholder="To"/>
+                <input required name="from_icao" value={fromIcao} onChange={onChange} type="text" placeholder="From"/>
+                <input required name="to_icao" value={toIcao} onChange={onChange} type="text" placeholder="To"/>
                 <input name="depart_date" value={departDate} onChange={onChange} type="date" placeholder="Depart"/>
                 <input name="return_date" value={returnDate} onChange={onChange} type="date" placeholder="Return"/>
                 <button type="submit">SEARCH</button>
@@ -85,7 +94,11 @@ export default function FlightSearch() {
                     </section>
                 )) : <Spinner /> }
             </article>
-            <Pagination>{ items }</Pagination>
+            <Pagination>
+                <Pagination.Item onClick={ () => previousPage(pageNumber) }>Previous</Pagination.Item>
+                { items }
+                <Pagination.Item onClick={ () => nextPage(pageNumber) }>Next</Pagination.Item>
+            </Pagination>
         </section>
     )
 }
