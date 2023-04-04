@@ -10,6 +10,19 @@ const fetchUserDetails = async () => {
     });
 }
 
+const deleteAccount = () => {
+    fetch("http://localhost:8080/api/v1/user", {
+        method: "DELETE",
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem("token"),
+        }
+    }).then((resp) => {
+        if (resp.status === 204) {
+            window.location.href = '/user/logout';
+        }
+    })
+}
+
 export default function AccountDetails() {
     const [tickets, setTickets] = useState([]);
     const [email, setEmail] = useState("");
@@ -37,7 +50,7 @@ export default function AccountDetails() {
             <article className="user-edit-buttons">
                 <menu>
                     <li><Link className="edit-account-btn" to="changePassword">Change password</Link></li>
-                    <li><Link className="edit-account-btn" to="deletePassword">Delete account</Link></li>
+                    <li><Link className="edit-account-btn" to="deleteAccount" onClick={ deleteAccount }>Delete account</Link></li>
                 </menu>
             </article>
             <article className="user-tickets">

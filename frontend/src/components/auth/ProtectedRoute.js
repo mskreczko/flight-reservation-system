@@ -22,6 +22,15 @@ export default function ProtectedRoute() {
                     </menu>
                 </nav>
             </header>
+            <header className="responsive-header">
+                <a className="header-text" href="/"><h1>Flight Booking</h1></a>
+                <nav>
+                    <menu>
+                        <li><Link className="nav-link" to="/user/account">ACCOUNT</Link></li>
+                        <li><Link className="nav-link" to="/user/logout">LOGOUT</Link></li>
+                    </menu>
+                </nav>
+            </header>
             <main>
                 <Outlet/>
             </main>

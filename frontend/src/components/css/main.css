@@ -193,6 +193,14 @@ main {
         box-shadow: 2px 2px 8px #000;
     }
 
+    .search-form input {
+        margin: 2% 1% 0 2%;
+    }
+
+    .search-form button {
+        margin-top: 2%;
+    }
+
     .desktop-header{
         display: none;
     }
@@ -203,6 +211,34 @@ main {
         color: #000;
         box-shadow: 5px 5px 10px #000;
         display: block;
+    }
+
+    .about {
+        margin: 3% 0 3% 0;
+    }
+
+    .nav-link {
+        text-decoration: none;
+        color: #000;
+        background-color: #fff;
+        margin: 5px;
+        padding: 0;
+        transition: all 0.5s ease-out;
+        border: none;
+    }
+
+    .nav-link:hover {
+        text-decoration: underline;
+        background-color: #fff;
+        color: #000;
+    }
+
+    .book-flight-section {
+        width: 95% !important;
+    }
+
+    .booking-confirmation {
+        margin: 15% 3% 0 3%;
     }
 }
 
