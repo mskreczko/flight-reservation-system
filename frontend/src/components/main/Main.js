@@ -16,6 +16,12 @@ export default function Main() {
             </header>
             <header className="responsive-header">
                 <a className="header-text" href="/"><h1>Flight Booking</h1></a>
+                <nav>
+                    <menu>
+                        <li><Link className="nav-link" to="/signin">SIGN IN</Link></li>
+                        <li><Link className="nav-link" to="/signup">SIGN UP</Link></li>
+                    </menu>
+                </nav>
             </header>
             <main>
                 <Outlet/>
