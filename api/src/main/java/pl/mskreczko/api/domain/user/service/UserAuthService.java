@@ -1,5 +1,6 @@
 package pl.mskreczko.api.domain.user.service;
 
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -7,6 +8,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.mskreczko.api.config.jwt.JWTAccessTokenProvider;
+import pl.mskreczko.api.domain.exceptions.AccountNotActivatedException;
 import pl.mskreczko.api.domain.exceptions.EntityAlreadyExistsException;
 import pl.mskreczko.api.domain.exceptions.InvalidPasswordException;
 import pl.mskreczko.api.domain.exceptions.NoSuchEntityException;
@@ -16,6 +18,8 @@ import pl.mskreczko.api.domain.user.dto.UserLoginDto;
 import pl.mskreczko.api.domain.user.dto.UserRegistrationDto;
 import pl.mskreczko.api.domain.user.role.Role;
 import pl.mskreczko.api.domain.user.role.RoleRepository;
+import pl.mskreczko.api.notifier.EmailNotifier;
+import pl.mskreczko.api.tokens.EmailVerificationTokenService;
 
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -29,8 +33,10 @@ public class UserAuthService implements UserDetailsService  {
     private final RoleRepository roleRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final JWTAccessTokenProvider jwtAccessTokenProvider;
+    private final EmailNotifier emailNotifier;
+    private final EmailVerificationTokenService emailVerificationTokenService;
 
-    public void registerUser(UserRegistrationDto userRegistrationDto) throws EntityAlreadyExistsException {
+    public void registerUser(UserRegistrationDto userRegistrationDto) throws EntityAlreadyExistsException, MessagingException {
         userRepository.findByEmail(userRegistrationDto.email()).ifPresent((user) -> {
             throw new EntityAlreadyExistsException();
         });
@@ -45,10 +51,15 @@ public class UserAuthService implements UserDetailsService  {
         user.getRoles().add(roleRepository.findByName("ROLE_USER"));
 
         userRepository.save(user);
+
+        emailNotifier.sendVerificationEmail(user.getEmail(), user.getFirstName(), emailVerificationTokenService.createToken(user));
     }
 
-    public String loginUser(UserLoginDto userLoginDto) {
+    public String loginUser(UserLoginDto userLoginDto) throws InvalidPasswordException, AccountNotActivatedException {
         final var user = userRepository.findByEmail(userLoginDto.email()).orElseThrow(NoSuchEntityException::new);
+        if (!user.isEnabled()) {
+            throw new AccountNotActivatedException();
+        }
 
         if (!bCryptPasswordEncoder.matches(userLoginDto.password(), user.getPassword())) {
             throw new InvalidPasswordException();

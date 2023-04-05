@@ -26,6 +26,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String password;
+    private boolean enabled = false;
 
     @OneToMany(mappedBy = "user")
     private List<Ticket> tickets = new ArrayList<>();
@@ -65,6 +66,6 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
     }
 }
