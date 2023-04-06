@@ -4,15 +4,25 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @RequiredArgsConstructor
 @Service
 public class EmailNotifier implements Notifier {
 
     private final JavaMailSender mailSender;
+
+    private String readFile(String filename) throws IOException {
+        File resource = new ClassPathResource(filename).getFile();
+        return new String(Files.readAllBytes(resource.toPath()));
+    }
 
     @Override
     public void sendNotification(String recipient, String subject, String body) {
@@ -31,9 +41,17 @@ public class EmailNotifier implements Notifier {
         message.setRecipients(MimeMessage.RecipientType.TO, recipient);
         message.setSubject("Account activation");
 
-        String content = "<h1>Hello, " + firstName + "\n<p>Click this link to activate your account</p>\n" +
-                "<a href=\"http://localhost:3000/activateAccount?token=\"" + token + ">http://localhost:3000/activateAccount?token="
-                + token + "</a>";
+        String content;
+
+        try {
+            content = readFile("templates/password_reset.html");
+            content = content.replace("${name}", firstName);
+            content = content.replace("${token}", token);
+        } catch (IOException e) {
+            content = "<h1>Hello, " + firstName + "\n<p>Click this link to activate your account</p>\n" +
+               "<a href=\"http://localhost:3000/activateAccount?token=\"" + token + ">http://localhost:3000/activateAccount?token="
+               + token + "</a>";
+        }
 
         message.setContent(content, "text/html; charset=utf-8");
 
