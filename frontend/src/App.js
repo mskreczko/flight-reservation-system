@@ -12,6 +12,8 @@ import Logout from "./components/auth/Logout";
 import { RecoilRoot } from "recoil";
 import AccountDetails from "./components/user/AccountDetails";
 import SuccessfulBook from "./components/flight-booking/SuccessfulBook";
+import VerifiedEmail from "./components/auth/VerifiedEmail";
+import NotFoundErrorPage from "./components/error-pages/404";
 
 function App() {
   return (
@@ -33,7 +35,9 @@ function App() {
             <Route path="signup" element={ <Signup/> }/>
             <Route path="contact" element={ <Contact/> }/>
             <Route path="about" element={ <About/> }/>
+            <Route path="activateAccount" element={ <VerifiedEmail/> }/>
           </Route>
+          <Route path="*" element={ <NotFoundErrorPage/> }/>
         </Routes>
       </div>
     </RecoilRoot>

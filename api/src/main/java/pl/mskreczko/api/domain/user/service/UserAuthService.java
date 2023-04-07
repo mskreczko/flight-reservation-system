@@ -21,6 +21,7 @@ import pl.mskreczko.api.domain.user.role.RoleRepository;
 import pl.mskreczko.api.notifier.EmailNotifier;
 import pl.mskreczko.api.tokens.EmailVerificationTokenService;
 
+import java.util.HashMap;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -52,7 +53,14 @@ public class UserAuthService implements UserDetailsService  {
 
         userRepository.save(user);
 
-        emailNotifier.sendVerificationEmail(user.getEmail(), user.getFirstName(), emailVerificationTokenService.createToken(user));
+        if (!emailNotifier.sendGenericEmail(user.getEmail(), "Account activation", "templates/account_activation.html",
+                new HashMap<>() {{
+                    put("name", user.getFirstName());
+                    put("token", emailVerificationTokenService.createToken(user));
+                }}))
+        {
+            throw new MessagingException();
+        }
     }
 
     public String loginUser(UserLoginDto userLoginDto) throws InvalidPasswordException, AccountNotActivatedException {

@@ -9,6 +9,7 @@ export default function Signup() {
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
     const [emailAlreadyTaken, setEmailAlreadyTaken] = useState(false);
     const [differentPasswords, setDifferentPasswords] = useState(false);
+    const [awaitingEmailVerification, setAwaitingEmailVerification] = useState(false);
 
     const signUpUser = async(email, firstName, lastName, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/register", {
@@ -55,7 +56,8 @@ export default function Signup() {
         signUpUser(email, firstName, lastName, password).then((response) => {
             if (response.status === 201) {
                 setEmailAlreadyTaken(false);
-                window.location.href = "/signin";
+                setAwaitingEmailVerification(true);
+                // window.location.href = "/signin";
             } else if (response.status === 409) {
                 setEmailAlreadyTaken(true);
             }
@@ -63,15 +65,18 @@ export default function Signup() {
     }
 
     return (
-        <form className="auth-form" onSubmit={onSubmit}>
-            <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
-            { emailAlreadyTaken ? <span style={{color: "red"}}>Email already taken</span> : null }
-            <input name="firstName" value={firstName} onChange={onChange} type="text" placeholder="Enter your first name"/>
-            <input name="lastName" value={lastName} onChange={onChange} type="text" placeholder="Enter your last name"/>
-            <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
-            <input name="passwordConfirmation" value={passwordConfirmation} onChange={onChange} type="password" placeholder="Confirm your password"/>
-            { differentPasswords ? <span style={{color: "red"}}>Passwords are different</span> : null }
-            <button type="submit">SIGN UP</button>
-        </form>
+        <article>
+            { !awaitingEmailVerification ? 
+            <form className="auth-form" onSubmit={onSubmit}>
+                <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
+                { emailAlreadyTaken ? <span style={{color: "red"}}>Email already taken</span> : null }
+                <input name="firstName" value={firstName} onChange={onChange} type="text" placeholder="Enter your first name"/>
+                <input name="lastName" value={lastName} onChange={onChange} type="text" placeholder="Enter your last name"/>
+                <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
+                <input name="passwordConfirmation" value={passwordConfirmation} onChange={onChange} type="password" placeholder="Confirm your password"/>
+                { differentPasswords ? <span style={{color: "red"}}>Passwords are different</span> : null }
+                <button type="submit">SIGN UP</button>
+            </form> : <section style={{ marginTop: "15%" }}>We have sent you an email with verification link.<br/>Make sure you activate your account</section>}
+        </article>
     )
 }

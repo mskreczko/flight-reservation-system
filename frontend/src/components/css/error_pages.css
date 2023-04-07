@@ -1,0 +1,15 @@
+.not-found-error-article {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.not-found-error-article h1 {
+    font-size: 5em;
+}
+
+.not-found-error-article p {
+    font-size: 1.2em;
+}
