@@ -147,7 +147,8 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
+    justify-content: center;
+    flex-grow: 1;
 }
 
 .auth-form {
@@ -180,6 +181,13 @@ main {
 
 .responsive-header {
     display: none;
+}
+
+.book-flight-form-wrapper {
+    width: 80%;
+    margin: 0 10% 0 10%;
+    display: flex;
+    justify-content: center;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
@@ -238,7 +246,11 @@ main {
     }
 
     .booking-confirmation {
-        margin: 15% 3% 0 3%;
+        margin: 0 3% 0 3%;
+    }
+
+    .book-flight-form-wrapper {
+        width: 80%;
     }
 }
 
@@ -348,7 +360,6 @@ main {
     border: 1px solid #000;
     border-radius: 15px;
     width: 40%;
-    margin: 5% 20% 0 20%;
     display: flex;
     flex-direction: column;
 }
@@ -437,7 +448,6 @@ main {
 .about {
     width: 60%;
     text-align: center;
-    margin-top: 10%;
 }
 
 .about section {
@@ -453,7 +463,6 @@ main {
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    margin-top: 15%;
 }
 
 .booking-confirmation p {

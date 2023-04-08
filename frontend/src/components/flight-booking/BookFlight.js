@@ -7,6 +7,7 @@ import "../css/main.css";
 export default function BookFlight() {
     const [tickets, setTickets] = useState([]);
     const [choosenTicket, setChoosenTicket] = useState("");
+    const [showSpinner, setShowSpinner] = useState(false);
     const options = [
         { value: "paypal", label: <div><img src="https://img.freepik.com/darmowe-ikony/paypal_318-674245.jpg" height="20px" width="40px"/></div> },
         { value: "googlepay", label: <div><img src="https://cdn-icons-png.flaticon.com/512/6124/6124998.png" height="20px" width="40px"/></div> },
@@ -28,6 +29,7 @@ export default function BookFlight() {
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
+        setShowSpinner(true);
         fetch("http://localhost:8080/api/v1/user/tickets/purchase", {
             method: "POST",
             headers: {
@@ -36,6 +38,7 @@ export default function BookFlight() {
             },
             body: JSON.stringify({"ticketId": choosenTicket}),
         }).then((resp) => {
+            setShowSpinner(false);
             if (resp.ok) {
                 window.location.href = "/user/success";
             }
@@ -51,7 +54,8 @@ export default function BookFlight() {
     }, []);
 
     return (
-        <section className="book-flight-section">
+        <div className="book-flight-form-wrapper">
+        { !showSpinner ? <section className="book-flight-section">
             <h3>Choose your ticket</h3>
             <article className="book-flight-section-details">
                 <h4>Details</h4>
@@ -73,6 +77,7 @@ export default function BookFlight() {
                 <Select placeholder="Select payment method" name="payment-method" className="payment-method-select" options={options}/>
                 <button type="submit">BOOK FLIGHT</button>
             </form>
-        </section>
+        </section> : <Spinner /> }
+        </div>
     )
 }

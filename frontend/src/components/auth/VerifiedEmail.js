@@ -16,7 +16,7 @@ export default function VerifiedEmail() {
     }, []);
 
     return (
-        <article style={{marginTop: "15%"}}>
+        <article>
         { emailVerified ? <section>
             <p>Your email has been verified.</p>
             <p>You can now sign in.</p>

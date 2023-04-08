@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import Spinner from "../spinners/Spinner";
 
 export default function Signup() {
     const [email, setEmail] = useState("");
@@ -10,6 +11,7 @@ export default function Signup() {
     const [emailAlreadyTaken, setEmailAlreadyTaken] = useState(false);
     const [differentPasswords, setDifferentPasswords] = useState(false);
     const [awaitingEmailVerification, setAwaitingEmailVerification] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
 
     const signUpUser = async(email, firstName, lastName, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/register", {
@@ -52,12 +54,12 @@ export default function Signup() {
             setDifferentPasswords(true);
             return;
         }
-
+        setShowSpinner(true);
         signUpUser(email, firstName, lastName, password).then((response) => {
+            setShowSpinner(false);
             if (response.status === 201) {
                 setEmailAlreadyTaken(false);
                 setAwaitingEmailVerification(true);
-                // window.location.href = "/signin";
             } else if (response.status === 409) {
                 setEmailAlreadyTaken(true);
             }
@@ -66,8 +68,8 @@ export default function Signup() {
 
     return (
         <article>
-            { !awaitingEmailVerification ? 
-            <form className="auth-form" onSubmit={onSubmit}>
+            { !showSpinner ? 
+            <form style={{ display: !awaitingEmailVerification ? "block" : "none" }}className="auth-form" onSubmit={onSubmit}>
                 <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
                 { emailAlreadyTaken ? <span style={{color: "red"}}>Email already taken</span> : null }
                 <input name="firstName" value={firstName} onChange={onChange} type="text" placeholder="Enter your first name"/>
@@ -76,7 +78,8 @@ export default function Signup() {
                 <input name="passwordConfirmation" value={passwordConfirmation} onChange={onChange} type="password" placeholder="Confirm your password"/>
                 { differentPasswords ? <span style={{color: "red"}}>Passwords are different</span> : null }
                 <button type="submit">SIGN UP</button>
-            </form> : <section style={{ marginTop: "15%" }}>We have sent you an email with verification link.<br/>Make sure you activate your account</section>}
+            </form> : <Spinner/>}
+            { awaitingEmailVerification && <p style={{ marginTop: "15%" }}>We have sent you an email with verification link.<br/>Make sure you activate your account</p> }
         </article>
     )
 }

@@ -1,11 +1,13 @@
 import { React, useState } from "react";
 import { useRecoilState } from "recoil";
 import { authenticationState } from "./atoms/AuthenticationAtom";
+import Spinner from "../spinners/Spinner";
 
 export default function Signin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [invalidCredentials, setInvalidCredentials] = useState(false);
+    const [showSpinner, setShowSpinner] = useState(false);
     const setAuthenticated = useRecoilState(authenticationState)[1];
 
     const signInUser = async(email, password) => {
@@ -34,6 +36,7 @@ export default function Signin() {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        setShowSpinner(true);
         
         signInUser(email, password).then((response) => {
             if (!response.ok) {
@@ -42,6 +45,7 @@ export default function Signin() {
             }
             return response.text();
         }).then((data) => {
+            setShowSpinner(false);
             localStorage.setItem("token", data);
             setAuthenticated(true);
             window.location.href = "/user";
@@ -49,11 +53,14 @@ export default function Signin() {
     }
 
     return (
-        <form className="auth-form" onSubmit={onSubmit}>
-            <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
-            <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
-            { invalidCredentials ? <span style={{color: "red"}}>Invalid credentials</span> : null}
-            <button type="submit">SIGN IN</button>
-        </form>
+        <article>
+            { !showSpinner ? 
+            <form className="auth-form" onSubmit={onSubmit}>
+                <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
+                <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
+                { invalidCredentials ? <span style={{color: "red"}}>Invalid credentials</span> : null}
+                <button type="submit">SIGN IN</button>
+            </form> : <Spinner/> }
+        </article>
     )
 }
