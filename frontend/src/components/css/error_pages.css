@@ -1,4 +1,4 @@
-.not-found-error-article {
+.error-article {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,10 +6,10 @@
     min-height: 100vh;
 }
 
-.not-found-error-article h1 {
+.error-article h1 {
     font-size: 5em;
 }
 
-.not-found-error-article p {
+.error-article p {
     font-size: 1.2em;
 }
