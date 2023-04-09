@@ -5,6 +5,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -12,7 +14,7 @@ import lombok.*;
 @Builder
 @Entity
 @Table(name = "airports")
-public class Airport {
+public class Airport implements Serializable {
 
     @Id
     private String icao;

@@ -1,6 +1,7 @@
 package pl.mskreczko.api.domain.flight.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,13 @@ public class UserFlightService {
     private final FlightRepository flightRepository;
     private final AirportRepository airportRepository;
 
+    @Cacheable(value = "users", key="#pageNumber")
     public Page<Flight> getAllFlights(Integer pageNumber) {
         return flightRepository.findAll(PageRequest.of(pageNumber, 5));
     }
 
     public Page<Flight> getFlightsByCriteria(String departureIcao, String destinationIcao,
                                              Optional<String> departureDate, Integer pageNumber) throws NoSuchEntityException {
-        // return flightRepository.findAll(PageRequest.of(pageNumber, 5));
         final var departureAirport = airportRepository.findById(departureIcao).orElseThrow(NoSuchEntityException::new);
         final var destinationAirport = airportRepository.findById(destinationIcao).orElseThrow(NoSuchEntityException::new);
         return flightRepository.findByDepartureAirportAndDestinationAirport(departureAirport, destinationAirport, PageRequest.of(pageNumber, 5));

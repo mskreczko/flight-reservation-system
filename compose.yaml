@@ -20,10 +20,14 @@ services:
       - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD}
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH=${SPRING_MAIL_PROPERTIES_MAIL_SMTP_AUTH}
       - SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE=${SPRING_MAIL_PROPERTIES_MAIL_SMTP_STARTTLS_ENABLE}
+      - SPRING_DATA_REDIS_HOST=redis_cache
+      - SPRING_DATA_REDIS_PORT=6379
+      - SPRING_CACHE_REDIS_TIME_TO_LIVE=60000
     networks:
       - spring-postgres
     depends_on:
       - db
+      - redis_cache
   db:
     image: postgres
     restart: always
@@ -37,6 +41,17 @@ services:
       - flight-reservation-system-data:/var/lib/postgresql/data
     networks:
       - spring-postgres
+  redis_cache:
+    image: redis
+    restart: always
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - 6379:6379
+    volumes:
+      - cache:/data
+    networks:
+      - spring-postgres
   frontend:
     build:
       context: frontend
@@ -47,5 +62,6 @@ services:
       - api
 volumes:
   flight-reservation-system-data:
+  cache:
 networks:
   spring-postgres:
