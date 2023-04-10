@@ -32,7 +32,7 @@ export default function ProtectedRoute() {
                 </nav>
             </header>
             <main>
-                <Outlet/>
+                <Outlet />
             </main>
             <footer>
                 <p>Michał Skreczko &copy; 2023</p>

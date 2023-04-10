@@ -9,5 +9,5 @@ export default function Logout() {
         setAuthenticated(false);
         localStorage.clear("token");
         window.location.href = "/";
-    }, []);
+    });
 }
