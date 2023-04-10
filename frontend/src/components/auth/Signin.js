@@ -10,7 +10,7 @@ export default function Signin() {
     const [showSpinner, setShowSpinner] = useState(false);
     const setAuthenticated = useRecoilState(authenticationState)[1];
 
-    const signInUser = async(email, password) => {
+    const signInUser = async (email, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/login", {
             method: "POST",
             headers: {
@@ -31,13 +31,15 @@ export default function Signin() {
             case "password":
                 setPassword(e.target.value);
                 break;
+            default:
+                break;
         }
     }
 
     const onSubmit = (e) => {
         e.preventDefault();
         setShowSpinner(true);
-        
+
         signInUser(email, password).then((response) => {
             if (!response.ok) {
                 setInvalidCredentials(true);
@@ -49,18 +51,18 @@ export default function Signin() {
             localStorage.setItem("token", data);
             setAuthenticated(true);
             window.location.href = "/user";
-        }).catch(() => {});
+        }).catch(() => { });
     }
 
     return (
         <article>
-            { !showSpinner ? 
-            <form className="auth-form" onSubmit={onSubmit}>
-                <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
-                <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
-                { invalidCredentials ? <span style={{color: "red"}}>Invalid credentials</span> : null}
-                <button type="submit">SIGN IN</button>
-            </form> : <Spinner/> }
+            {!showSpinner ?
+                <form className="auth-form" onSubmit={onSubmit}>
+                    <input required name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email" aria-label="Email" />
+                    <input required name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password" aria-label="Password" />
+                    {invalidCredentials ? <span style={{ color: "red" }}>Invalid credentials</span> : null}
+                    <button type="submit">SIGN IN</button>
+                </form> : <Spinner />}
         </article>
     )
 }

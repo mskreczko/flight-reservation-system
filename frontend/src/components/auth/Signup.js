@@ -13,18 +13,18 @@ export default function Signup() {
     const [awaitingEmailVerification, setAwaitingEmailVerification] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
 
-    const signUpUser = async(email, firstName, lastName, password) => {
-        return await fetch("http://localhost:8080/api/v1/auth/register", {
+    const signUpUser = (email, firstName, lastName, password) => {
+        return fetch("http://localhost:8080/api/v1/auth/register", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                    "email": email,
-                    "firstName": firstName,
-                    "lastName": lastName,
-                    "password": password
-                }),
+                "email": email,
+                "firstName": firstName,
+                "lastName": lastName,
+                "password": password
+            }),
         });
     }
 
@@ -45,6 +45,8 @@ export default function Signup() {
             case "passwordConfirmation":
                 setPasswordConfirmation(e.target.value);
                 break;
+            default:
+                break;
         }
     }
 
@@ -63,23 +65,23 @@ export default function Signup() {
             } else if (response.status === 409) {
                 setEmailAlreadyTaken(true);
             }
-        }).catch(() => {});
+        }).catch(() => { });
     }
 
     return (
         <article>
-            { !showSpinner ? 
-            <form style={{ display: !awaitingEmailVerification ? "block" : "none" }}className="auth-form" onSubmit={onSubmit}>
-                <input name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email"/>
-                { emailAlreadyTaken ? <span style={{color: "red"}}>Email already taken</span> : null }
-                <input name="firstName" value={firstName} onChange={onChange} type="text" placeholder="Enter your first name"/>
-                <input name="lastName" value={lastName} onChange={onChange} type="text" placeholder="Enter your last name"/>
-                <input name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password"/>
-                <input name="passwordConfirmation" value={passwordConfirmation} onChange={onChange} type="password" placeholder="Confirm your password"/>
-                { differentPasswords ? <span style={{color: "red"}}>Passwords are different</span> : null }
-                <button type="submit">SIGN UP</button>
-            </form> : <Spinner/>}
-            { awaitingEmailVerification && <p style={{ marginTop: "15%" }}>We have sent you an email with verification link.<br/>Make sure you activate your account</p> }
+            {!showSpinner ?
+                <form style={{ display: !awaitingEmailVerification ? "block" : "none" }} className="auth-form" onSubmit={onSubmit}>
+                    <input required name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email" aria-label="Email" />
+                    {emailAlreadyTaken ? <span style={{ color: "red" }}>Email already taken</span> : null}
+                    <input required name="firstName" value={firstName} onChange={onChange} type="text" placeholder="Enter your first name" aria-label="First name" />
+                    <input required name="lastName" value={lastName} onChange={onChange} type="text" placeholder="Enter your last name" aria-label="Last name" />
+                    <input required name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password" aria-label="Password" />
+                    <input required name="passwordConfirmation" value={passwordConfirmation} onChange={onChange} type="password" placeholder="Confirm your password" aria-label="Password confirmation" />
+                    {differentPasswords ? <span style={{ color: "red" }}>Passwords are different</span> : null}
+                    <button type="submit">SIGN UP</button>
+                </form> : <Spinner />}
+            {awaitingEmailVerification && <p style={{ marginTop: "15%" }}>We have sent you an email with verification link.<br />Make sure you activate your account</p>}
         </article>
     )
 }

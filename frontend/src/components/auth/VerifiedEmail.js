@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 export default function VerifiedEmail() {
     const [emailVerified, setEmailVerified] = useState(false);
@@ -17,10 +17,10 @@ export default function VerifiedEmail() {
 
     return (
         <article>
-        { emailVerified ? <section>
-            <p>Your email has been verified.</p>
-            <p>You can now sign in.</p>
-        </section> : null }
+            {emailVerified ? <section>
+                <p>Your email has been verified.</p>
+                <Link to="/signin">Click here to sign in.</Link>
+            </section> : null}
         </article>
     )
 }

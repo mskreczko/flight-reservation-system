@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { React } from "react";
 import { Outlet, Link } from "react-router-dom";
 import "../css/main.css";
 
@@ -24,7 +24,7 @@ export default function Main() {
                 </nav>
             </header>
             <main>
-                <Outlet/>
+                <Outlet />
             </main>
             <footer>
                 <p>Michał Skreczko &copy; 2023</p>
