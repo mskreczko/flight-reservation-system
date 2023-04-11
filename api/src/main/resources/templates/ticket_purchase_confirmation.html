@@ -35,6 +35,24 @@
 
         #ticket-details {
             text-align: justify;
+            margin-top: 5%;
+        }
+
+        #ticket-details h2 {
+            text-align: center;
+        }
+
+        #ticket-details article {
+            width: 60%;
+            margin-left: 20%;
+            margin-right: 20%;
+            border: 1px solid #000;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        #ticket-details article p {
+            margin: 5px;
         }
 
         footer {
@@ -65,10 +83,12 @@
             <p>Here are details of your purchase</p>
             <section id="ticket-details">
                 <h2>Details</h2>
-                <p>From: ${departureAirport}</p>
-                <p>To: ${destinationAirport}</p>
-                <p>Date: ${departureDate}</p>
-                <p>Ticket price: ${ticketPrice}</p>
+                <article>
+                    <p>From: ${departureAirport}</p>
+                    <p>To: ${destinationAirport}</p>
+                    <p>Date: ${departureDate}</p>
+                    <p>Ticket price: ${ticketPrice}$</p>
+                </article>
             </section>
         </main>
     </div>
