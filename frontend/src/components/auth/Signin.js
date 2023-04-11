@@ -41,13 +41,13 @@ export default function Signin() {
         setShowSpinner(true);
 
         signInUser(email, password).then((response) => {
+            setShowSpinner(false);
             if (!response.ok) {
                 setInvalidCredentials(true);
                 throw new Error();
             }
             return response.text();
         }).then((data) => {
-            setShowSpinner(false);
             localStorage.setItem("token", data);
             setAuthenticated(true);
             window.location.href = "/user";
