@@ -1,5 +1,6 @@
 package pl.mskreczko.api.domain.ticket.service;
 
+import jakarta.mail.MessagingException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,7 +12,9 @@ import pl.mskreczko.api.domain.ticket.TicketRepository;
 import pl.mskreczko.api.domain.ticket.dto.TicketPurchaseDto;
 import pl.mskreczko.api.domain.user.User;
 import pl.mskreczko.api.domain.user.service.UserAuthService;
+import pl.mskreczko.api.notifier.EmailNotifier;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +25,7 @@ public class TicketService {
     private final TicketRepository ticketRepository;
     private final FlightRepository flightRepository;
     private final UserAuthService userAuthService;
+    private final EmailNotifier emailNotifier;
 
     public List<Ticket> getTicketsForFlight(UUID flightId) throws EntityNotFoundException {
         return ticketRepository.findByFlight(flightRepository.findById(flightId).orElseThrow(EntityNotFoundException::new));
@@ -32,10 +36,20 @@ public class TicketService {
     }
 
     @Transactional
-    public void purchaseTicket(TicketPurchaseDto ticketPurchaseDto) throws EntityNotFoundException {
+    public void purchaseTicket(TicketPurchaseDto ticketPurchaseDto) throws EntityNotFoundException, MessagingException {
         final var ticket = ticketRepository.findById(ticketPurchaseDto.ticketId()).orElseThrow(EntityNotFoundException::new);
         var user = (User)userAuthService.loadUserById(UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName()));
         user.getTickets().add(ticket);
         ticket.setUser(user);
+        if (!emailNotifier.sendGenericEmail(user.getEmail(), "Ticket purchase confirmation",
+                "templates/ticket_purchase_confirmation.html", new HashMap<>() {{
+                    put("name", user.getFirstName());
+                    put("departureAirport", ticket.getFlight().getDepartureAirport().getIcao());
+                    put("destinationAirport", ticket.getFlight().getDestinationAirport().getIcao());
+                    put("departureDate", ticket.getFlight().getDepartureDate().toString());
+                    put("ticketPrice", ticket.getPrice().toString());
+                }})) {
+            throw new MessagingException();
+        }
     }
 }
