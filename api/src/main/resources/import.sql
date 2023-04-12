@@ -16,5 +16,5 @@ insert into flights(id, icao_departure, icao_destination, departure_date, airlin
 insert into flights(id, icao_departure, icao_destination, departure_date, airline) values('200be1c1-06dc-40b6-a112-ddc435dc8f50', 'LFPG', 'EPKK', '06/10/2023', 'Lufthansa');
 insert into flights(id, icao_departure, icao_destination, departure_date, airline) values('2d8212fc-85fe-4fed-bf7c-03903d3967f6', 'LFPG', 'EPKK', '07/10/2023', 'LOT');
 
-insert into tickets(id, flight_id, user_id, price, travel_class) values('ea5218e6-32f2-45a8-a65b-6acc276013c5', '200be1c1-06dc-40b6-a112-ddc435dc8f50', null, 3500.0, 'BUSINESS_CLASS');
-insert into tickets(id, flight_id, user_id, price, travel_class) values('01ca2df1-45d4-4905-bc5d-3a1e4febb12d', '200be1c1-06dc-40b6-a112-ddc435dc8f50', null, 2800.0, 'FIRST_CLASS');
+insert into tickets(id, flight_id, user_id, price, travel_class, number_of_available_tickets) values('ea5218e6-32f2-45a8-a65b-6acc276013c5', '200be1c1-06dc-40b6-a112-ddc435dc8f50', null, 3500.0, 'BUSINESS_CLASS', 1);
+insert into tickets(id, flight_id, user_id, price, travel_class, number_of_available_tickets) values('01ca2df1-45d4-4905-bc5d-3a1e4febb12d', '200be1c1-06dc-40b6-a112-ddc435dc8f50', null, 2800.0, 'FIRST_CLASS', 3);

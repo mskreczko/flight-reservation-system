@@ -67,7 +67,7 @@ export default function BookFlight() {
                     <article className="available-tickets">
                         {tickets ? tickets.map((t, idx) => (
                             <div className="ticket-box" key={idx}>
-                                <input className="ticket-box-check" type="radio" name={t.id} value={t.id} onChange={onChange} />
+                                <input disabled={t.numberOfAvailableTickets === 0 ? true : false} className="ticket-box-check" type="radio" name={t.id} value={t.id} onChange={onChange} />
                                 <label className="ticket-box-label" htmlFor={t.id}>
                                     <p>{t.price} $ | {t.travelClass}</p>
                                 </label>
