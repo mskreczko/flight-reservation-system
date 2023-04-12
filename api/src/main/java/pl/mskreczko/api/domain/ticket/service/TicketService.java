@@ -27,6 +27,10 @@ public class TicketService {
     private final UserAuthService userAuthService;
     private final EmailNotifier emailNotifier;
 
+    private boolean isTicketAvailableToBuy(Ticket ticket) {
+        return ticket.getNumberOfAvailableTickets() > 0;
+    }
+
     public List<Ticket> getTicketsForFlight(UUID flightId) throws EntityNotFoundException {
         return ticketRepository.findByFlight(flightRepository.findById(flightId).orElseThrow(EntityNotFoundException::new));
     }
@@ -38,9 +42,16 @@ public class TicketService {
     @Transactional
     public void purchaseTicket(TicketPurchaseDto ticketPurchaseDto) throws EntityNotFoundException, MessagingException {
         final var ticket = ticketRepository.findById(ticketPurchaseDto.ticketId()).orElseThrow(EntityNotFoundException::new);
+        if (!isTicketAvailableToBuy(ticket)) {
+            throw new EntityNotFoundException();
+        }
         var user = (User)userAuthService.loadUserById(UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName()));
+
         user.getTickets().add(ticket);
         ticket.setUser(user);
+
+        ticket.setNumberOfAvailableTickets(ticket.getNumberOfAvailableTickets() - 1);
+
         if (!emailNotifier.sendGenericEmail(user.getEmail(), "Ticket purchase confirmation",
                 "templates/ticket_purchase_confirmation.html", new HashMap<>() {{
                     put("name", user.getFirstName());

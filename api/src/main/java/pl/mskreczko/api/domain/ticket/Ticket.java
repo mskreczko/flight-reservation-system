@@ -35,6 +35,8 @@ public class Ticket {
     @Enumerated(EnumType.STRING)
     private TravelClass travelClass;
 
+    private Integer numberOfAvailableTickets;
+
     @Override
     public String toString() {
         return "Ticket{" +
