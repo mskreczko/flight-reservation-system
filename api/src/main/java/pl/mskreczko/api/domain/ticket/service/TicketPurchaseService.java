@@ -11,6 +11,7 @@ import pl.mskreczko.api.domain.ticket.TicketRepository;
 import pl.mskreczko.api.domain.ticket.dto.TicketPurchaseDto;
 import pl.mskreczko.api.domain.user.User;
 import pl.mskreczko.api.domain.user.service.UserAuthService;
+import pl.mskreczko.api.exceptions.NoSuchEntityException;
 
 import java.util.UUID;
 
@@ -36,8 +37,8 @@ public class TicketPurchaseService {
         ticket.decreaseNumberOfTickets();
     }
 
-    public void processPurchase(TicketPurchaseDto ticketPurchaseDto) throws EntityNotFoundException, MessagingException {
-        var ticket = ticketRepository.findById(ticketPurchaseDto.ticketId()).orElseThrow(EntityNotFoundException::new);
+    public void processPurchase(TicketPurchaseDto ticketPurchaseDto) throws NoSuchEntityException, MessagingException {
+        var ticket = ticketRepository.findById(ticketPurchaseDto.ticketId()).orElseThrow(NoSuchEntityException::new);
         var user = (User)userAuthService.loadUserById(UUID.fromString(SecurityContextHolder.getContext().getAuthentication().getName()));
         purchaseTicket(user, ticket);
         purchaseMailingService.sendPurchaseNotification(user, ticket);

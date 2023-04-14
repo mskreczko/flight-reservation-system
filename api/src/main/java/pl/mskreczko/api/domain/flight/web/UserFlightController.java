@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.mskreczko.api.domain.flight.service.UserFlightService;
+import pl.mskreczko.api.exceptions.NoSuchEntityException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class UserFlightController {
                                          @RequestParam("destination_icao") String destinationIcao,
                                          @RequestParam("departure_date") String departureDate,
                                          @RequestParam("return_date") Optional<String> returnDate,
-                                         @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber) {
+                                         @RequestParam(value = "pageNumber", defaultValue = "0") Integer pageNumber) throws NoSuchEntityException {
         return ResponseEntity.ok(userFlightService.getFlightsByCriteria(departureIcao, destinationIcao, returnDate,
                 pageNumber));
     }

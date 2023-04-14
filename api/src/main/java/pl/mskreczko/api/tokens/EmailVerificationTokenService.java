@@ -3,7 +3,7 @@ package pl.mskreczko.api.tokens;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import pl.mskreczko.api.domain.exceptions.NoSuchEntityException;
+import pl.mskreczko.api.exceptions.NoSuchEntityException;
 import pl.mskreczko.api.domain.user.User;
 
 import java.time.LocalDateTime;

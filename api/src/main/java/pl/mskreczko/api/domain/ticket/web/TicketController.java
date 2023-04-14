@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.mskreczko.api.domain.ticket.dto.TicketPurchaseDto;
 import pl.mskreczko.api.domain.ticket.service.TicketPurchaseService;
 import pl.mskreczko.api.domain.ticket.service.TicketSearchService;
+import pl.mskreczko.api.exceptions.NoSuchEntityException;
 
 import java.util.UUID;
 
@@ -23,8 +24,8 @@ public class TicketController {
     public ResponseEntity<?> getTicketsForFlight(@PathVariable("flightId") UUID flightId) {
         try {
             return ResponseEntity.ok(ticketSearchService.getTicketsForFlight(flightId));
-        } catch (EntityNotFoundException ex) {
-            return ResponseEntity.notFound().build();
+        } catch (NoSuchEntityException exception) {
+            return new ResponseEntity<>(exception.getApiError(), exception.getApiError().getStatus());
         }
     }
 
@@ -39,8 +40,8 @@ public class TicketController {
         try {
             ticketPurchaseService.processPurchase(ticketPurchaseDto);
             return ResponseEntity.ok().build();
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
+        } catch (NoSuchEntityException exception) {
+            return new ResponseEntity<>(exception.getApiError(), exception.getApiError().getStatus());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
