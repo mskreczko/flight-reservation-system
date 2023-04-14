@@ -25,11 +25,7 @@ public class UserAuthController {
         try {
             final var token = userAuthService.loginUser(userLoginDto);
             return ResponseEntity.ok(token);
-        } catch (NoSuchEntityException exception) {
-            return new ResponseEntity<>(exception.getApiError(), exception.getApiError().getStatus());
-        } catch (AccountNotActivatedException exception) {
-            return new ResponseEntity<>(exception.getApiError(), exception.getApiError().getStatus());
-        } catch (InvalidPasswordException exception) {
+        } catch (NoSuchEntityException | AccountNotActivatedException | InvalidPasswordException exception) {
             return new ResponseEntity<>(exception.getApiError(), exception.getApiError().getStatus());
         }
     }
