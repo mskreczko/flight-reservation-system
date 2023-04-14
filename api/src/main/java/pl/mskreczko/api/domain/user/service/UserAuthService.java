@@ -8,10 +8,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.mskreczko.api.config.jwt.JWTAccessTokenProvider;
-import pl.mskreczko.api.domain.exceptions.AccountNotActivatedException;
-import pl.mskreczko.api.domain.exceptions.EntityAlreadyExistsException;
-import pl.mskreczko.api.domain.exceptions.InvalidPasswordException;
-import pl.mskreczko.api.domain.exceptions.NoSuchEntityException;
+import pl.mskreczko.api.exceptions.AccountNotActivatedException;
+import pl.mskreczko.api.exceptions.EntityAlreadyExistsException;
+import pl.mskreczko.api.exceptions.InvalidPasswordException;
+import pl.mskreczko.api.exceptions.NoSuchEntityException;
 import pl.mskreczko.api.domain.user.User;
 import pl.mskreczko.api.domain.user.UserRepository;
 import pl.mskreczko.api.domain.user.dto.UserLoginDto;
@@ -22,7 +22,6 @@ import pl.mskreczko.api.notifier.EmailNotifier;
 import pl.mskreczko.api.tokens.EmailVerificationTokenService;
 
 import java.util.HashMap;
-import java.util.NoSuchElementException;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -63,7 +62,7 @@ public class UserAuthService implements UserDetailsService  {
         }
     }
 
-    public String loginUser(UserLoginDto userLoginDto) throws InvalidPasswordException, AccountNotActivatedException {
+    public String loginUser(UserLoginDto userLoginDto) throws InvalidPasswordException, AccountNotActivatedException, NoSuchEntityException {
         final var user = userRepository.findByEmail(userLoginDto.email()).orElseThrow(NoSuchEntityException::new);
         if (!user.isEnabled()) {
             throw new AccountNotActivatedException();
@@ -79,10 +78,10 @@ public class UserAuthService implements UserDetailsService  {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(NoSuchEntityException::new);
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(""));
     }
 
-    public UserDetails loadUserById(UUID userId) throws NoSuchElementException {
+    public UserDetails loadUserById(UUID userId) throws NoSuchEntityException {
         return userRepository.findById(userId).orElseThrow(NoSuchEntityException::new);
     }
 }

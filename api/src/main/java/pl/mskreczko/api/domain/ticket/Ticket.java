@@ -37,6 +37,10 @@ public class Ticket {
 
     private Integer numberOfAvailableTickets;
 
+    public void decreaseNumberOfTickets() {
+        this.numberOfAvailableTickets--;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
