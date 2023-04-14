@@ -22,7 +22,7 @@
             width: 60%;
             margin-left: 20%;
             margin-right: 20%;
-            height: 100vh;
+            min-height: 100vh;
             background-color: #fff;
         }
 
@@ -55,6 +55,35 @@
             margin: 5px;
         }
 
+        #boarding-pass-header {
+            color: #fff;
+            background-color: #44a0d8;
+            padding: 20px;
+        }
+
+        #boarding-pass {
+            text-align: justify;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        #boarding-pass h2 {
+            text-align: center;
+        }
+
+        #boarding-pass img {
+            text-align: center;
+        }
+
+        #upper-side {
+            border-bottom: 1px dashed #000;
+        }
+
+        #lower-border {
+            background-color: #44a0d8;
+            padding: 20px;
+        }
+
         footer {
             color :#fff;
             background-color: #44a0d8;
@@ -78,7 +107,7 @@
             <h1>Ticket purchase confirmation</h1>
         </header>
         <main>
-            <p>Hello ${name},</p>
+            <p>Hello ${firstName},</p>
             <p>You have recently bought the ticket for the flight.</p>
             <p>Here are details of your purchase</p>
             <section id="ticket-details">
@@ -89,6 +118,27 @@
                     <p>Date: ${departureDate}</p>
                     <p>Ticket price: ${ticketPrice}$</p>
                 </article>
+            </section>
+            <section id="boarding-pass">
+                <div>
+                    <h2 id="boarding-pass-header">Boarding Pass</h2>
+                    <div id="upper-side">
+                        <p>NAME: ${firstName} ${lastName}</p>
+                        <p>FROM: ${departureAirport}</p>
+                        <p>TO: ${destinationAirport}</p>
+                        <p>DATE: ${departureDate} SEAT: 5C GATE: B15</p>
+                    </div>
+                </div>
+                <div id="lower-side">
+                    <p>NAME: ${firstName} ${lastName}</p>
+                    <p>FROM: ${departureAirport}</p>
+                    <p>TO: ${destinationAirport}</p>
+                    <p>DATE: ${departureDate} GATE: B15</p>
+                    <img alt="barcode" src="https://static.vecteezy.com/system/resources/previews/001/199/360/original/barcode-png.png" width="200px">
+                </div>
+                <div id="lower-border">
+                    <span></span>
+                </div>
             </section>
         </main>
     </div>
