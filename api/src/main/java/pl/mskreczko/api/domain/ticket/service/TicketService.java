@@ -12,8 +12,12 @@ import pl.mskreczko.api.domain.ticket.TicketRepository;
 import pl.mskreczko.api.domain.ticket.dto.TicketPurchaseDto;
 import pl.mskreczko.api.domain.user.User;
 import pl.mskreczko.api.domain.user.service.UserAuthService;
+import pl.mskreczko.api.invoices.service.HTMLToPDFInvoiceGenerator;
+import pl.mskreczko.api.invoices.service.InvoiceService;
 import pl.mskreczko.api.notifier.EmailNotifier;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +30,8 @@ public class TicketService {
     private final FlightRepository flightRepository;
     private final UserAuthService userAuthService;
     private final EmailNotifier emailNotifier;
+    private final HTMLToPDFInvoiceGenerator htmlToPDFInvoiceGenerator;
+    private final InvoiceService invoiceService;
 
     private boolean isTicketAvailableToBuy(Ticket ticket) {
         return ticket.getNumberOfAvailableTickets() > 0;
@@ -52,14 +58,23 @@ public class TicketService {
 
         ticket.setNumberOfAvailableTickets(ticket.getNumberOfAvailableTickets() - 1);
 
-        if (!emailNotifier.sendGenericEmail(user.getEmail(), "Ticket purchase confirmation",
-                "templates/ticket_purchase_confirmation.html", new HashMap<>() {{
-                    put("name", user.getFirstName());
-                    put("departureAirport", ticket.getFlight().getDepartureAirport().getIcao());
-                    put("destinationAirport", ticket.getFlight().getDestinationAirport().getIcao());
-                    put("departureDate", ticket.getFlight().getDepartureDate().toString());
-                    put("ticketPrice", ticket.getPrice().toString());
-                }})) {
+        final var invoice = invoiceService.createInvoice(user, List.of(ticket));
+        final var invoiceTitle = invoiceService.generateInvoiceFilename(invoice);
+        htmlToPDFInvoiceGenerator.generateInvoice(invoiceTitle, invoice);
+
+        try {
+            if (!emailNotifier.sendGenericEmail(user.getEmail(), "Ticket purchase confirmation",
+                    "templates/ticket_purchase_confirmation.html", new HashMap<>() {{
+                        put("firstName", user.getFirstName());
+                        put("lastName", user.getLastName());
+                        put("departureAirport", ticket.getFlight().getDepartureAirport().getIcao());
+                        put("destinationAirport", ticket.getFlight().getDestinationAirport().getIcao());
+                        put("departureDate", ticket.getFlight().getDepartureDate().toString());
+                        put("ticketPrice", ticket.getPrice().toString());
+                    }}, new File(invoiceTitle))) {
+                throw new MessagingException();
+            }
+        } catch (IOException e) {
             throw new MessagingException();
         }
     }
