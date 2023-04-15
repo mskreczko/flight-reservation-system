@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.mskreczko.api.config.jwt.AccessTokenProvider;
 import pl.mskreczko.api.domain.user.User;
+import pl.mskreczko.api.domain.user.service.UserJWTDetails;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class AccessTokenAuthenticationSuccessHandler implements AuthenticationSu
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
-        final User user = (User) authentication.getPrincipal();
+        final UserJWTDetails user = (UserJWTDetails) authentication.getPrincipal();
         final String accessToken = accessTokenProvider.getAccessToken(user.getId(), user.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         response.setHeader("access_token", accessToken);

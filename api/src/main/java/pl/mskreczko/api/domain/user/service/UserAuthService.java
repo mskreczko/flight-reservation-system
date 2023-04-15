@@ -78,10 +78,10 @@ public class UserAuthService implements UserDetailsService  {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(""));
+        return new UserJWTDetails(userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("")));
     }
 
     public UserDetails loadUserById(UUID userId) throws NoSuchEntityException {
-        return userRepository.findById(userId).orElseThrow(NoSuchEntityException::new);
+        return new UserJWTDetails(userRepository.findById(userId).orElseThrow(NoSuchEntityException::new));
     }
 }

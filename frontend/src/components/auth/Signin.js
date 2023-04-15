@@ -2,6 +2,8 @@ import { React, useState } from "react";
 import { useRecoilState } from "recoil";
 import { authenticationState } from "./atoms/AuthenticationAtom";
 import Spinner from "../spinners/Spinner";
+import { JWTState } from "./atoms/TokenAtom";
+import { Link } from "react-router-dom";
 
 export default function Signin() {
     const [email, setEmail] = useState("");
@@ -9,6 +11,7 @@ export default function Signin() {
     const [invalidCredentials, setInvalidCredentials] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
     const setAuthenticated = useRecoilState(authenticationState)[1];
+    const setToken = useRecoilState(JWTState)[1];
 
     const signInUser = async (email, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/login", {
@@ -48,7 +51,7 @@ export default function Signin() {
             }
             return response.text();
         }).then((data) => {
-            localStorage.setItem("token", data);
+            setToken(data);
             setAuthenticated(true);
             window.location.href = "/user";
         }).catch(() => { });
@@ -57,12 +60,17 @@ export default function Signin() {
     return (
         <article>
             {!showSpinner ?
-                <form className="auth-form" onSubmit={onSubmit}>
-                    <input required name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email" aria-label="Email" />
-                    <input required name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password" aria-label="Password" />
-                    {invalidCredentials ? <span style={{ color: "red" }}>Invalid credentials</span> : null}
-                    <button type="submit">SIGN IN</button>
-                </form> : <Spinner />}
+                <div>
+                    <form className="auth-form" onSubmit={onSubmit}>
+                        <input required name="email" value={email} onChange={onChange} type="text" placeholder="Enter your email" aria-label="Email" />
+                        <input required name="password" value={password} onChange={onChange} type="password" placeholder="Enter your password" aria-label="Password" />
+                        {invalidCredentials ? <span style={{ color: "red" }}>Invalid credentials</span> : null}
+                        <button type="submit">SIGN IN</button>
+                    </form>
+                    <p className="line-text"><span className="line-text-content">OR</span></p>
+                    <a className="social-signin-btn" href="http://localhost:8080/login/oauth2/code/github">Sign in with Github</a>
+                    <p style={{ fontSize: "small", marginTop: "10px" }}>Not a member yet? <Link to="/signup">Sign up</Link></p>
+                </div> : <Spinner />}
         </article>
     )
 }

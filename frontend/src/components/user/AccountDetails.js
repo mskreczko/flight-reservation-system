@@ -1,20 +1,22 @@
 import { React, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Spinner from "../spinners/Spinner";
+import { useRecoilState } from "recoil";
+import { JWTState } from "../auth/atoms/TokenAtom";
 
-const fetchUserDetails = () => {
+const fetchUserDetails = (token) => {
     return fetch("http://localhost:8080/api/v1/user/details", {
         headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Authorization": "Bearer " + token,
         }
     });
 }
 
-const deleteAccount = () => {
+const deleteAccount = (token) => {
     fetch("http://localhost:8080/api/v1/user", {
         method: "DELETE",
         headers: {
-            "Authorization": "Bearer " + localStorage.getItem("token"),
+            "Authorization": "Bearer " + token,
         }
     }).then((resp) => {
         if (resp.status === 204) {
@@ -28,9 +30,10 @@ export default function AccountDetails() {
     const [email, setEmail] = useState("");
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const token = useRecoilState(JWTState)[0];
 
     useEffect(() => {
-        fetchUserDetails().then((data) => data.json())
+        fetchUserDetails(token).then((data) => data.json())
             .then((body) => {
                 setTickets(body.tickets);
                 setEmail(body.email);
@@ -50,7 +53,7 @@ export default function AccountDetails() {
             <article className="user-edit-buttons">
                 <menu>
                     <li><Link className="edit-account-btn" to="changePassword">Change password</Link></li>
-                    <li><Link className="edit-account-btn" to="deleteAccount" onClick={deleteAccount}>Delete account</Link></li>
+                    <li><Link className="edit-account-btn" to="deleteAccount" onClick={() => deleteAccount(token)}>Delete account</Link></li>
                 </menu>
             </article>
             <article className="user-tickets">
