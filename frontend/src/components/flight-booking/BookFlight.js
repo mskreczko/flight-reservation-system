@@ -3,11 +3,14 @@ import { useLocation } from "react-router-dom";
 import Select from "react-select";
 import Spinner from "../spinners/Spinner";
 import "../css/main.css";
+import { useRecoilState } from "recoil";
+import { JWTState } from "../auth/atoms/TokenAtom";
 
 export default function BookFlight() {
     const [tickets, setTickets] = useState([]);
     const [choosenTicket, setChoosenTicket] = useState("");
     const [showSpinner, setShowSpinner] = useState(false);
+    const token = useRecoilState(JWTState)[0];
     const options = [
         { value: "paypal", label: <div><img src="https://img.freepik.com/darmowe-ikony/paypal_318-674245.jpg" alt="paypal logo" height="20px" width="40px" /></div> },
         { value: "googlepay", label: <div><img src="https://cdn-icons-png.flaticon.com/512/6124/6124998.png" alt="googlepay logo" height="20px" width="40px" /></div> },
@@ -22,7 +25,7 @@ export default function BookFlight() {
     const fetchTicketsForFlight = (flightId) => {
         return fetch("http://localhost:8080/api/v1/user/tickets/" + flightId, {
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Authorization": "Bearer " + token,
             }
         });
     }
@@ -33,7 +36,7 @@ export default function BookFlight() {
         fetch("http://localhost:8080/api/v1/user/tickets/purchase", {
             method: "POST",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token"),
+                "Authorization": "Bearer " + token,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ "ticketId": choosenTicket }),

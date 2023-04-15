@@ -2,6 +2,7 @@ import { React, useState } from "react";
 import { useRecoilState } from "recoil";
 import { authenticationState } from "./atoms/AuthenticationAtom";
 import Spinner from "../spinners/Spinner";
+import { JWTState } from "./atoms/TokenAtom";
 
 export default function Signin() {
     const [email, setEmail] = useState("");
@@ -9,6 +10,7 @@ export default function Signin() {
     const [invalidCredentials, setInvalidCredentials] = useState(false);
     const [showSpinner, setShowSpinner] = useState(false);
     const setAuthenticated = useRecoilState(authenticationState)[1];
+    const setToken = useRecoilState(JWTState)[1];
 
     const signInUser = async (email, password) => {
         return await fetch("http://localhost:8080/api/v1/auth/login", {
@@ -48,7 +50,7 @@ export default function Signin() {
             }
             return response.text();
         }).then((data) => {
-            localStorage.setItem("token", data);
+            setToken(data);
             setAuthenticated(true);
             window.location.href = "/user";
         }).catch(() => { });
