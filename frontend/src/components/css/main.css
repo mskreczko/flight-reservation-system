@@ -172,12 +172,38 @@ main {
     border-radius: 5px;
     border: none;
     transition: all 0.5s ease-out;
+    font-size: 1em;
 }
 
 .auth-form button:hover {
     cursor: pointer;
     border: 1px solid #fff;
     background-color: #149cb4;
+}
+
+.social-signin-btn {
+    text-decoration: none;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: var(--bs-purple);
+    color: #fff;
+    border-radius: 5px;
+    border: none;
+    transition: all 0.5s ease-out;
+}
+
+.line-text {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    line-height: 0.1em;
+    margin: 20px 0 20px;
+}
+
+.line-text-content {
+    background: #fff;
+    padding: 0 10px;
 }
 
 .responsive-header {
