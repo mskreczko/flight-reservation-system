@@ -1,4 +1,4 @@
-package pl.mskreczko.api.config;
+package pl.mskreczko.api.infrastructure.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +16,8 @@ import org.springframework.security.web.context.RequestAttributeSecurityContextR
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import pl.mskreczko.api.config.jwt.AccessTokenPreAuthorizationFilter;
-import pl.mskreczko.api.config.jwt.AccessTokenProvider;
+import pl.mskreczko.api.infrastructure.config.jwt.AccessTokenPreAuthorizationFilter;
+import pl.mskreczko.api.infrastructure.config.jwt.AccessTokenProvider;
 import pl.mskreczko.api.domain.user.service.UserAuthService;
 
 import java.util.List;

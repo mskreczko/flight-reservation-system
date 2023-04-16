@@ -5,10 +5,10 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pl.mskreczko.api.domain.airport.AirportRepository;
+import pl.mskreczko.api.persistence.airport.AirportRepository;
 import pl.mskreczko.api.exceptions.NoSuchEntityException;
 import pl.mskreczko.api.domain.flight.Flight;
-import pl.mskreczko.api.domain.flight.FlightRepository;
+import pl.mskreczko.api.persistence.flight.FlightRepository;
 
 import java.util.Optional;
 import java.util.UUID;

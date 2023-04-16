@@ -3,7 +3,7 @@ package pl.mskreczko.api.domain.user.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.mskreczko.api.exceptions.NoSuchEntityException;
-import pl.mskreczko.api.domain.user.UserRepository;
+import pl.mskreczko.api.persistence.user.UserRepository;
 import pl.mskreczko.api.domain.user.dto.UserDetailsDto;
 
 import java.util.UUID;

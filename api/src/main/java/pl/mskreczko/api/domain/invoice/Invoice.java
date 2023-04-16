@@ -1,4 +1,4 @@
-package pl.mskreczko.api.invoices;
+package pl.mskreczko.api.domain.invoice;
 
 import jakarta.persistence.*;
 import lombok.Getter;

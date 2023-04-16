@@ -1,4 +1,4 @@
-package pl.mskreczko.api.config;
+package pl.mskreczko.api.infrastructure.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

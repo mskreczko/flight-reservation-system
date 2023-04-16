@@ -1,4 +1,4 @@
-package pl.mskreczko.api.config.jwt;
+package pl.mskreczko.api.infrastructure.config.jwt;
 
 import org.springframework.security.core.Authentication;
 

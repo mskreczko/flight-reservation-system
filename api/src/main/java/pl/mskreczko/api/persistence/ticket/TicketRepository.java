@@ -1,7 +1,8 @@
-package pl.mskreczko.api.domain.ticket;
+package pl.mskreczko.api.persistence.ticket;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import pl.mskreczko.api.domain.flight.Flight;
+import pl.mskreczko.api.domain.ticket.Ticket;
 import pl.mskreczko.api.domain.user.User;
 
 import java.util.List;
