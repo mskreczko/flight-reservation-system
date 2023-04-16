@@ -1,4 +1,4 @@
-package pl.mskreczko.api.config;
+package pl.mskreczko.api.infrastructure.config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import pl.mskreczko.api.config.jwt.AccessTokenProvider;
+import pl.mskreczko.api.infrastructure.config.jwt.AccessTokenProvider;
 import pl.mskreczko.api.domain.user.service.UserJWTDetails;
 
 import java.io.IOException;

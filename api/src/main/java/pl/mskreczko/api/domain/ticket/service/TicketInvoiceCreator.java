@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.mskreczko.api.domain.ticket.Ticket;
 import pl.mskreczko.api.domain.user.User;
-import pl.mskreczko.api.invoices.service.HTMLToPDFInvoiceGenerator;
-import pl.mskreczko.api.invoices.service.InvoiceService;
+import pl.mskreczko.api.domain.invoice.service.HTMLToPDFInvoiceGenerator;
+import pl.mskreczko.api.domain.invoice.service.InvoiceService;
 
 import java.util.List;
 

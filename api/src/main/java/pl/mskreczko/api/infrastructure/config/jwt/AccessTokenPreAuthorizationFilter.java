@@ -1,4 +1,4 @@
-package pl.mskreczko.api.config.jwt;
+package pl.mskreczko.api.infrastructure.config.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

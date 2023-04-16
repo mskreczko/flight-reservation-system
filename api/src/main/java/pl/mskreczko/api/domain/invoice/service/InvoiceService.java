@@ -1,12 +1,12 @@
-package pl.mskreczko.api.invoices.service;
+package pl.mskreczko.api.domain.invoice.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.mskreczko.api.domain.ticket.Ticket;
 import pl.mskreczko.api.domain.user.User;
-import pl.mskreczko.api.invoices.Invoice;
-import pl.mskreczko.api.invoices.InvoiceRepository;
+import pl.mskreczko.api.domain.invoice.Invoice;
+import pl.mskreczko.api.persistence.invoice.InvoiceRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

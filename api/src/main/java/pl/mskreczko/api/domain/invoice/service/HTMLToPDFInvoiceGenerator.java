@@ -1,4 +1,4 @@
-package pl.mskreczko.api.invoices.service;
+package pl.mskreczko.api.domain.invoice.service;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -6,7 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.xhtmlrenderer.layout.SharedContext;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-import pl.mskreczko.api.invoices.Invoice;
+import pl.mskreczko.api.domain.invoice.Invoice;
 
 import java.io.*;
 import java.nio.file.Files;
