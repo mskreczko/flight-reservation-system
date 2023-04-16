@@ -4,6 +4,8 @@ import { authenticationState } from "./atoms/AuthenticationAtom";
 import Spinner from "../spinners/Spinner";
 import { JWTState } from "./atoms/TokenAtom";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
 
 export default function Signin() {
     const [email, setEmail] = useState("");
@@ -68,7 +70,10 @@ export default function Signin() {
                         <button type="submit">SIGN IN</button>
                     </form>
                     <p className="line-text"><span className="line-text-content">OR</span></p>
-                    <a className="social-signin-btn" href="http://localhost:8080/login/oauth2/code/github">Sign in with Github</a>
+                    <a className="social-signin-btn" href="http://localhost:8080/login/oauth2/code/github">
+                        Sign in with Github
+                        <FontAwesomeIcon style={{ marginLeft: "5px" }} icon={faGithub} />
+                    </a>
                     <p style={{ fontSize: "small", marginTop: "10px" }}>Not a member yet? <Link to="/signup">Sign up</Link></p>
                 </div> : <Spinner />}
         </article>

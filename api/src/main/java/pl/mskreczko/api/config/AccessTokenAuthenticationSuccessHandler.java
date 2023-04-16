@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import pl.mskreczko.api.config.jwt.AccessTokenProvider;
-import pl.mskreczko.api.domain.user.User;
 import pl.mskreczko.api.domain.user.service.UserJWTDetails;
 
 import java.io.IOException;
